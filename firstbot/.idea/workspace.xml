@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f9c5088-f56a-4eb1-bf35-3704c1aede5c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/volkov/firstbot/Author.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/volkov/firstbot/AuthorBookShelf.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/edu/volkov/firstbot/DocumentConnector.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/volkov/firstbot/Author.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/volkov/firstbot/Author.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/volkov/firstbot/AuthorBookShelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/volkov/firstbot/AuthorBookShelf.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/volkov/firstbot/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/volkov/firstbot/Book.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/edu/volkov/firstbot/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/volkov/firstbot/Bot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/edu/volkov/firstbot/DocumentConnector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/edu/volkov/firstbot/DocumentConnector.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -93,7 +91,16 @@
       <option name="presentableId" value="Default" />
       <updated>1598724741599</updated>
       <workItem from="1598724745327" duration="8710000" />
-      <workItem from="1598800689955" duration="17269000" />
+      <workItem from="1598800689955" duration="17580000" />
+      <workItem from="1598853969277" duration="15000" />
+      <workItem from="1598854252149" duration="2111000" />
+      <workItem from="1598860569142" duration="97000" />
+      <workItem from="1598971114076" duration="1127000" />
+      <workItem from="1598972530013" duration="18422000" />
+      <workItem from="1599026762989" duration="372000" />
+      <workItem from="1599328643999" duration="4168000" />
+      <workItem from="1599376322740" duration="561000" />
+      <workItem from="1599385285787" duration="1202000" />
     </task>
     <servers />
   </component>
@@ -105,7 +112,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

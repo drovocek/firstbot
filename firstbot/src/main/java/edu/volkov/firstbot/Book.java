@@ -1,5 +1,10 @@
 package edu.volkov.firstbot;
 
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,81 +14,99 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Book {
-    private DocumentConnector document;
-    private String bookName;
+    private Document document;
+    private String bookAuthorName = "нет дынных";
+    private String bookAuthorURL = "нет дынных";
+    private String bookName = "нет дынных";
+    private String bookDocURL = "нет дынных";
+    private String bookImgURL = "нет дынных";
+    private String bookGenres = "нет дынных";
+    private String bookDescription = "нет дынных";
+    private String bookComments = "нет дынных";
+    private int bookLikes;
+    private int bookViews;
+    private int bookCountComments;
 
-    private static final String BUFFER_IMG = "C:\\Users\\sky\\Desktop\\PROG\\MyJProjects\\loadresourses";
-
-    public Book(){
-        document = new DocumentConnector("https://surgebook.com/pepelna/book/chernilnaya");
-    }
-
-    public String getTittle(){
-        return document.getDocTittle();
-    }
-
-    public String getLikes(){
-        return document.getElementTextById("likes");
-    }
-
-    public String getDescription(){
-        return document.getElementTextById("description");
-    }
-
-    public String getGenres(){
-        return document.getElementsTextByClass("genres d-block");
-    }
-
-    public String getComments(){
-        String comment = document.getElementsTextByClass("comment_mv1_item");
-        return cleanComment(comment);
-    }
-
-    private String cleanComment(String comment){
-        return comment.replaceAll("Ответить","\n\n")
+    public Book(String bookURL){
+        try{
+            document = Jsoup.connect(bookURL).get();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        bookDocURL = bookURL;
+        bookAuthorURL = document.getElementsByClass("text-decoration-none column-author-name bold max-w-140 text-overflow-ellipsis").attr("href");
+        bookAuthorName = document.getElementsByClass("text-decoration-none column-author-name bold max-w-140 text-overflow-ellipsis").text();
+        bookName = document.getElementsByClass("title d-block bold").text();
+        bookImgURL = document.getElementsByClass("cover-book")
+                .attr("style")
+                .replace("background-image: url('","")
+                .replace("');","");
+        bookGenres = document.getElementsByClass("genres d-block").text();
+        bookDescription = document.getElementById("description").text().replace("★Аннотация: ","");
+        bookComments = document.getElementsByClass("comment_mv1_item").text()
+                .replaceAll("Ответить","\n\n")
                 .replaceAll("Нравится","")
                 .replaceAll("\\d{4}-\\d{2}-\\d{2}","")
                 .replaceAll("\\d{2}:\\d{2}:\\d{2}","");
+        Elements elements = document.getElementsByClass("font-size-14 color-white ml-5");
+        bookLikes = Integer.valueOf(elements.get(0).text());
+        bookViews = Integer.valueOf(elements.get(1).text());
+        bookCountComments = Integer.valueOf(elements.get(2).text());
     }
 
-    private String getImgURL(){
-        return document.getImgURLByClass("cover-book") ;
+    public String getBookAuthorName() {
+        return bookAuthorName;
     }
 
-    public File getImgFile(){
-        File fileImg = new File(BUFFER_IMG);
-        try(InputStream in = new URL(getImgURL()).openStream()) {
-            Path bufferPath = Paths.get(BUFFER_IMG);
-            Files.copy(in, bufferPath);
-        }  catch (IOException e) {
-            e.printStackTrace();
-        }
-        return fileImg;
+    public String getBookAuthorURL() {
+        return bookAuthorURL;
     }
 
-    public void cleanImgBuffer(){
-        try{
-            Files.delete(Paths.get(BUFFER_IMG));
-        } catch(IOException e){
-            e.printStackTrace();
-        }
+    public String getBookName() {
+        return bookName;
     }
 
-    public String getAuthorName(){
-        return document.getElementsTextByClass("" +
-                "text-decoration-none column-author-name" +
-                "bold max-w-140 text-overflow-ellipsis");
+    public String getBookDocURL() {
+        return bookDocURL;
     }
 
-    public String getBookTextInfo(){
-        String info = getTittle()
-                + "\n:smile "
-                + "\nАвтор: " + getAuthorName()
-                + "\nЖанр: " + getGenres()
-                + "\n\nОписание\n:" + getDescription()
-                + "\n\nКоличество лайков: " + getLikes()
-                + "\n\nПоследние комментарии: " + getComments();
-        return info;
+    public String getBookImgURL() {
+        return bookImgURL;
     }
 
+    public String getBookGenres() {
+        return bookGenres;
+    }
+
+    public String getBookDescription() {
+        return bookDescription;
+    }
+
+    public String getBookComments() {
+        return bookComments;
+    }
+
+    public int getBookLikes() {
+        return bookLikes;
+    }
+
+    public int getBookViews() {
+        return bookViews;
+    }
+
+    public int getBookCountComments() {
+        return bookCountComments;
+    }
+
+    @Override
+    public String toString() {
+        return "\nНазвание: " + getBookName()
+                + "\nАвтор: " + getBookAuthorName()
+                + "\nЖанр: " + getBookGenres()
+                + "\n\nОписание:\n" + getBookDescription()
+                + "\n\nКоличество лайков: " + getBookLikes()
+                + "\nКоличество просмотров: " + getBookViews()
+                + "\nКоличество комментариев: " + getBookCountComments()
+                + "\n\nПоследние комментарии:\n" + getBookComments();
+    }
 }

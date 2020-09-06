@@ -1,52 +1,78 @@
 package edu.volkov.firstbot;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.IOException;
 
 public class Author {
-    private DocumentConnector document;
+    private Document document;
     private AuthorBookShelf authorBookShelf;
-    private Document bookDoc;
-    private String authorName;
-    private int valuesLikeBooks;
-    private int valuesViewsBooks;
-    private int valuesCommentsBooks;
+    private String authorLogin = "нет дынных";
+    private String authorName = "нет дынных";
+    private String authorBio = "нет дынных";
+    private String authorDocURL = "нет дынных";
+    private String authorPhotoURL = "нет дынных";
+    private int valuesBooks;
+    private int valuesBlog;
+    private int valuesPoems;
+    private int valuesSubscriber;
+    private int valuesSubscription;
 
-    public Author(String name){
-        authorName = name;
-        document = new DocumentConnector("https://surgebook.com/" + authorName);
-        authorBookShelf = new AuthorBookShelf(authorName);
+    public Author(String authorLogin) {
+        this.authorLogin = authorLogin;
+        authorDocURL = "https://surgebook.com/" + authorLogin;
+        authorBookShelf = new AuthorBookShelf(authorDocURL);
+        try{
+            document = Jsoup.connect(authorDocURL).get();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        authorName = document.getElementsByClass("author-name bold").text();
+        authorBio = document.getElementsByClass("author-bio").text();
+        authorPhotoURL = document.getElementsByClass("user-avatar")
+                .attr("style")
+                .replace("background-image: url('","")
+                .replace("');","");
+        Elements values = document.getElementsByClass("info-stats-num");
+        valuesBooks = Integer.valueOf(values.get(0).text());
+        valuesBlog = Integer.valueOf(values.get(1).text());
+        valuesPoems = Integer.valueOf(values.get(2).text());
+        valuesSubscriber = Integer.valueOf(values.get(3).text());
+        valuesSubscription = Integer.valueOf(values.get(4).text());
     }
 
-    public String getName(){
-        return document.getElementsTextByClass("author_name bold");
+    public String getAuthorLogin() {
+        return authorLogin;
     }
 
-    public String getBio(){
-        return document.getElementsTextByClass("author_bio");
+    public String getAuthorName() {
+        return authorName;
     }
 
-    private String getImgURL(){
-        return document.getImgURLByClass("user_avatar") ;
+    public String getAuthorBio() {
+        return authorBio;
     }
 
-    public String getPersonInfo(){
-        String info ="";
-        info += "Имя: " + getName();
-        info += "Статус: " + getName();
-        info += document.getElementsTextMapByClass("info_stats_name","info_stats_name");
-       // info += getAuthorBooks();
-        return info;
+    public String getAuthorDocURL() {
+        return authorDocURL;
     }
 
-//    private String getAuthorBooks() {
-//
-//
-//    }
+    public String getAuthorPhotoURL() {
+        return authorPhotoURL;
+    }
 
-
+    @Override
+    public String toString() {
+        return "Имя: " + authorName + "\n"
+                + "Биография: " + authorBio + "\n\n"
+                +  "Количество: " + "\n"
+                +  "  - книг: " + valuesBooks +"\n"
+                +  "  - блог: " + valuesBlog +"\n"
+                +  "  - стихов: " + valuesPoems +"\n"
+                +  "  - подписчиков: " + valuesSubscriber +"\n"
+                +  "  - подписок: " + valuesSubscription +"\n\n"
+                + "Книги:\n  - " + authorBookShelf.toString() + "\n";
+    }
 }

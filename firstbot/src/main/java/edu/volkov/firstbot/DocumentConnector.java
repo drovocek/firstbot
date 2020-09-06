@@ -9,6 +9,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -61,12 +62,23 @@ public class DocumentConnector {
         return imgURL ;
     }
     //TODO переделать через стримы
-    public String getElementsTextMapByClass(String keysClassName, String valuesClassName){
-        String result = "";
+    public Map<Element,Element> getElementsMapByClass(String keysClassName, String valuesClassName){
+        Map<Element,Element> result = new HashMap<>();
+
         Elements keyElenents = document.getElementsByClass(keysClassName);
         Elements valElenents = document.getElementsByClass(valuesClassName);
+
+//        List<String> key = keyElenents.stream()
+//                .map(Element::text)
+//                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+//        List<String> val = keyElenents.stream()
+//                .map(Element::text)
+//                .collect(ArrayList::new,ArrayList::add,ArrayList::addAll);
+
+
+
         for (int i = 0; i < keyElenents.size(); i++) {
-            result += keyElenents.get(i).text() + ":" + valElenents.get(i).text() +"\n";
+            result.put(keyElenents.get(i), valElenents.get(i));
         }
         return result;
     }
